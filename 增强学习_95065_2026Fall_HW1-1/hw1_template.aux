@@ -1,0 +1,22 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand*\HyPL@Entry[1]{}
+\HyPL@Entry{0<</S/D>>}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Code}{1}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Running the Code}{1}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Section 1: Behavior Cloning}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}BC Results Table}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces BC 在两个环境上的实验结果。网络用了 2 层隐藏层 $\times $ 64 单元，激活函数 Tanh，学习率 5e-3，训练了 1000 个梯度步，batch size 100。}}{3}{table.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Hyperparameter Experiment}{3}{subsection.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces BC 在 Ant-v4 上随训练梯度步数的变化。步数取了 $\{100, 500, 1000, 2000, 4000\}$ 这几个值，其他设置都没动：\texttt  {ep\_len}=1000，\texttt  {eval\_batch\_size}=5000（测了 5 条轨迹），网络是 2$\times $64 的 Tanh，学习率 5e-3，训练 batch size 100，专家数据用了 2 条轨迹（2000 个转移）。步数越多，策略对专家数据拟合得越好，回报也跟着往上走；到 4000 步的时候已经离专家很近了（4667.79 对 4681.89）。误差棒对应的是 5 条评估轨迹的 Eval\_StdReturn。}}{4}{figure.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Section 2: DAgger}{5}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}DAgger Learning Curve}{5}{subsection.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces DAgger 在 Ant-v4 上的学习曲线。横轴是迭代轮数，第 0 轮是纯 BC 预热（只用专家数据），之后 1\textasciitilde 9 轮是 DAgger 迭代。纵轴是 Eval\_AverageReturn，误差棒来自 Eval\_StdReturn。绿色虚线是专家策略的平均回报（4681.89），红色虚线是 BC-only 基线（976.30）。实验设置和前面一致：\texttt  {ep\_len}=1000，\texttt  {eval\_batch\_size}=5000（5 条轨迹），网络 2$\times $64（Tanh），学习率 5e-3，训练 batch size 100，专家数据 2 条轨迹（2000 个转移），每轮 \texttt  {num\_agent\_train\_steps\_per\_iter}=1000。}}{5}{figure.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}BC vs.\ DAgger Comparison}{6}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}提交说明：仅提交 PDF 报告}{7}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Visualization (Optional)}{8}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Survey}{9}{section.6}\protected@file@percent }
+\newlabel{sec:survey}{{6}{9}{Survey}{section.6}{}}
+\newlabel{sec:survey@cref}{{[section][6][]6}{[1][9][]9}{}{}{}}
+\gdef \@abspage@last{9}
