@@ -1,0 +1,209 @@
+% Compile with any LaTeX environment that correctly renders this template.
+\documentclass{article}
+\usepackage[UTF8,scheme=plain,fontset=fandol]{ctex}
+\usepackage{xcolor}
+\usepackage{titleps}
+\usepackage[letterpaper, margin=0.95in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{tabu}
+\usepackage{parskip}
+\usepackage{natbib}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{quiver}
+\usepackage{graphicx}
+
+\newcommand{\xb}{\mathbf{x}}
+\newcommand{\yb}{\mathbf{y}}
+\newcommand{\wb}{\mathbf{w}}
+\newcommand{\Xb}{\mathbf{X}}
+\newcommand{\Yb}{\mathbf{Y}}
+\newcommand{\tr}{^T}
+\newcommand{\hb}{\mathbf{h}}
+\newcommand{\Hb}{\mathbf{H}}
+
+\DeclareFontShape{OT1}{cmtt}{bx}{n}{<5><6><7><8><9><10><10.95><12><14.4><17.28><20.74><24.88>cmttb10}{}
+
+
+\usepackage{forest}
+
+\usepackage{hyperref}
+\usepackage[color=red]{todonotes}
+\usepackage{forest}
+\definecolor{light-yellow}{HTML}{FFE5CC}
+
+\usepackage{cleveref}
+
+\newpagestyle{ruled}
+{\sethead{RL2026fall / 95065}{增强学习}{Fall 2026}\headrule
+  \setfoot{}{}{}}
+\pagestyle{ruled}
+
+\renewcommand\makeheadrule{\color{black}\rule[-.75\baselineskip]{\linewidth}{0.4pt}}
+\renewcommand*\footnoterule{}
+
+\begin{document}
+\lstset{basicstyle = \ttfamily,columns=fullflexible,
+backgroundcolor = \color{light-yellow}
+}
+
+\begin{centering}
+    {\Large [SOLUTION TEMPLATE] Assignment 2: Policy Gradients} \\
+    \vspace{.25cm}
+    \textbf{提交截止日期见课程站点} \\
+    \vspace{.15cm}
+    提交入口：\url{https://oc.sjtu.edu.cn/courses/95065} \\
+    \vspace{.15cm}
+    \textbf{最终仅提交由本文件编译得到的 PDF 报告；无需提交代码、数据、实验日志或 TeX 源文件。}
+\end{centering}
+
+\setcounter{section}{0}
+
+\section{Policy Gradients (CartPole Environment)}
+
+In this section, you will evaluate the basic design choices in policy gradients:
+trajectory-centric returns, reward-to-go, advantage normalization, and batch size.
+To keep the workload manageable, we use four representative configurations.
+
+\begin{lstlisting}[language=bash]
+# 1. Vanilla policy gradient: trajectory-centric return, no normalization
+python sjtuRL2026/scripts/run_hw2.py --env_name CartPole-v0 -n 100 -b 1000 \
+    --exp_name cartpole_vanilla
+
+# 2. Reward-to-go
+python sjtuRL2026/scripts/run_hw2.py --env_name CartPole-v0 -n 100 -b 1000 -rtg \
+    --exp_name cartpole_rtg
+
+# 3. Reward-to-go + advantage normalization
+python sjtuRL2026/scripts/run_hw2.py --env_name CartPole-v0 -n 100 -b 1000 -rtg -na \
+    --exp_name cartpole_rtg_na
+
+# 4. Reward-to-go + advantage normalization + larger batch size
+python sjtuRL2026/scripts/run_hw2.py --env_name CartPole-v0 -n 100 -b 4000 -rtg -na \
+    --exp_name cartpole_rtg_na_lb
+\end{lstlisting}
+
+Where:
+
+\quad \verb|-n|: number of iterations
+
+\quad \verb|-b|: batch size
+
+\quad \verb|-rtg|: use reward-to-go
+
+\quad \verb|-na|: use advantage normalization
+
+\quad \verb|exp_name|: name of the experiment
+
+\begin{itemize}
+\item Create one graph comparing the learning curves
+(average return vs. number of environment steps) for the four experiments above.
+
+\textbf{For all plots in this assignment, the $x$-axis should be number of environment steps,
+logged as} \verb|Train_EnvstepsSoFar|
+\textbf{(\textit{not} number of policy gradient iterations).}
+
+\item Answer the following questions briefly:
+\begin{itemize}
+\item Does reward-to-go improve performance compared with vanilla trajectory-centric returns?
+\item Does advantage normalization help?
+\item Does increasing the batch size from $1000$ to $4000$ improve stability or final performance?
+
+\end{itemize}
+
+\item Provide the exact command line configurations you used to run your experiments,
+including any parameters changed from their defaults.
+
+\item The best configuration should converge to a maximum score close to 200.
+\end{itemize}
+
+\newpage
+
+\section{Neural Network Baseline (HalfCheetah)}
+
+You will now implement a value function as a state-dependent neural network baseline. This neural network will be trained in the update method of MLPPolicyPG along with the policy gradient update. We will train the baseline network for multiple gradient steps for each policy update, determined by the parameter \verb|baseline_gradient_steps|.
+
+No baseline
+
+\begin{lstlisting}[language=bash]
+python sjtuRL2026/scripts/run_hw2.py --env_name HalfCheetah-v4 \ 
+    -n 100 -b 5000 -rtg --discount 0.95 -lr 0.01 \ 
+    --exp_name cheetah
+\end{lstlisting}
+
+Baseline
+
+\begin{lstlisting}[language=bash]
+python sjtuRL2026/scripts/run_hw2.py --env_name HalfCheetah-v4 \
+    -n 100 -b 5000 -rtg --discount 0.95 -lr 0.01 \ 
+    --use_baseline -blr 0.01 -bgs 5 --exp_name cheetah_baseline
+\end{lstlisting}
+
+You might notice that we omitted-na (normalize advantages). That’s because in reality, advantage normalization is a very powerful trick, and eliminates the need for a baseline most of the simple environments that we test in.
+
+
+\begin{itemize}
+    \item Plot a learning curve for the baseline loss.
+    \item Plot a learning curve for the eval return. You should expect to achieve an average return over 300 for the baselined version.
+    \item \textcolor{red}{(bonus)} Run another experiment with a decreased number of baseline gradient steps (\verb|-bgs|) and/or baseline learning rate (\verb|-blr|). How does this affect (a) the baseline learning curve and (b) the performance of the policy?
+    \item \textbf{Optional:} Add \verb|-na| back to see how much it improves things. Also, set \verb|video_log_freq 10|, then open TensorBoard and go to the ``Images'' tab to see some videos of your HalfCheetah walking along!
+\end{itemize}
+
+\newpage\section{Generalized Advantage Estimation (LunarLander-v2) \textcolor{red}{(bonus)}}
+
+You will now use the value function you previously implemented to implement a simplified version of GAE-$\lambda$. This will require filling in the remaining TODO section in \texttt{pg\_agent.py:estimate\_advantage}.
+
+You will now use your implementation of policy gradient with generalized advantage estimation to learn a controller for a version of LunarLander-v2 with noisy actions. Search over $\lambda\in [0,0.95,0.98,0.99,1] $  to replace $<$todo$>$ below. Do not change any of the other hyperparameters (e.g. batch size, learning rate).
+
+\begin{lstlisting}[language=bash]
+python sjtuRL2026/scripts/run_hw2.py \
+    --env_name LunarLander-v2 --ep_len 1000 \
+    --discount 0.99 -n 300 -l 3 -s 128 -b 2000 -lr 0.001 \
+    --use_reward_to_go --use_baseline --gae_lambda <todo> \
+    --exp_name lunar_lander_lambda<todo>
+\end{lstlisting}
+
+\begin{itemize}
+    \item Provide a single plot with the learning curves for the \verb|LunarLander-v2| experiments that you tried. Describe in words how $\lambda$ affected task performance. The run with the best performance should achieve an average score close to 200 (180+).
+    \item  Consider the parameter $\lambda$. What does $\lambda = 0$ correspond to? What about $\lambda = 1$? Relate this to the task performance in \verb|LunarLander-v2| in one or two sentences.
+\end{itemize}
+
+\newpage\section{Hyperparameter Tuning (InvertedPendulum) \textcolor{red}{(bonus)}}
+
+First, train a policy for the inverted pendulum problem without GAE and with otherwise default settings. Use five different seeds to get a good estimate of average performance
+
+\begin{lstlisting}[language=bash]
+for ($seed = 1; $seed -le 5; $seed++) {
+  python sjtuRL2026/scripts/run_hw2.py --env_name InvertedPendulum-v4 -n 100 \
+    --exp_name "pendulum_default_s$seed" \
+    -rtg --use_baseline -na \
+    --batch_size 5000 \
+    --seed $seed
+}
+\end{lstlisting}
+
+Your task is to tune hyperparameters so that your implementation reaches maximum performance (score of 1000) in fewer environment steps than these default settings (note: this is not the same as minimizing number of policy gradient iterations: one policy gradient iteration corresponds to batch size environment steps). Try and find hyperparameters that reach a score of 1000 in as few steps as possible !
+
+
+\begin{enumerate}
+    \item Provide a set of hyperparameters that achieve high return on \verb|InvertedPendulum-v4| in as few environment steps as possible.
+    \item Show learning curves for the average returns with your hyperparameters and with the default settings, with environment steps on the $x$-axis. Returns should be averaged over 5 seeds.
+\end{enumerate}
+
+\newpage
+
+\section{提交说明：仅提交 PDF 报告}
+
+请把实验图表、命令配置和文字答案填写到 \texttt{hw2\_template.tex} 中，并使用任意能够正确编译本模板的 LaTeX 环境生成 PDF。最终文件应为 \texttt{hw2\_template.pdf}。
+
+\textbf{课程平台只需上传填写完整且能够正常打开的 PDF 报告。无需上传 Python 代码、实验数据、日志、模型文件、TeX 源文件或 ZIP 压缩包。} 代码和实验输出仅用于完成实验与生成报告内容，请自行保留。
+
+提交前请逐页检查 PDF，确认图表、公式、命令和答案均显示完整。提交入口：\url{https://oc.sjtu.edu.cn/courses/95065}。截止日期以课程平台通知为准。
+
+\end{document}
