@@ -1,0 +1,83 @@
+\usepackage{xcolor}
+\usepackage{titleps}
+\usepackage[letterpaper, margin=0.95in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{tabu}
+\usepackage{parskip}
+\usepackage{natbib}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{forest}
+\usepackage{hyperref}
+\usepackage[color=red]{todonotes}
+\usepackage{forest}
+\definecolor{light-yellow}{HTML}{FFE5CC}
+\usepackage{cleveref}
+
+\newcommand{\xb}{\mathbf{x}}
+\newcommand{\yb}{\mathbf{y}}
+\newcommand{\wb}{\mathbf{w}}
+\newcommand{\Xb}{\mathbf{X}}
+\newcommand{\Yb}{\mathbf{Y}}
+\newcommand{\tr}{^T}
+\newcommand{\hb}{\mathbf{h}}
+\newcommand{\Hb}{\mathbf{H}}
+
+\DeclareFontShape{OT1}{cmtt}{bx}{n}{<5><6><7><8><9><10><10.95><12><14.4><17.28><20.74><24.88>cmttb10}{}
+
+\newpagestyle{ruled}
+{\sethead{RL2026fall / 95065}{Reinforcement Learning}{Fall 2026}\headrule
+  \setfoot{}{\ifsolutions\LARGE\bf\textcolor{red}{Answer Key}\fi}{}}
+\pagestyle{ruled}
+
+\renewcommand\makeheadrule{\color{black}\rule[-.75\baselineskip]{\linewidth}{0.4pt}}
+\renewcommand*\footnoterule{}
+
+\begin{document}
+\lstset{basicstyle = \ttfamily,columns=fullflexible,
+backgroundcolor = \color{light-yellow}
+}
+
+\begin{centering}
+    {\Large Assignment 3: Q-Learning and Actor-Critic Algorithms} \\
+\url{https://oc.sjtu.edu.cn/courses/95065/assignments} \\
+\end{centering}
+
+\input{hw3_text/02_dqn}
+\input{hw3_text/04_sac}
+
+
+\section{Report submission}
+Complete the experiments and explanations requested above, and include the necessary plots, settings, and results in your report. Optional bonus tasks remain optional.
+
+\textbf{Submit only the successfully compiled PDF report through the course assignment page.} Edit and compile \texttt{hw3\_template.tex}; any compatible LaTeX compiler is acceptable. Include your name and student ID. Do not submit source code, logs, data, videos, checkpoints, a ZIP archive, or LaTeX sources. Keep these locally for your own work. The submission deadline is stated in Canvas.
+
+\newpage
+\section{SAC implementation notes}
+This starter code uses a fixed entropy coefficient \texttt{temperature}; automatic temperature tuning is not required. Let $\alpha$ denote this coefficient and let $d_t$ indicate true termination (not time-limit truncation). With a next action $a'\sim\pi_\theta(\cdot|s')$, the target is
+\[
+y=r+\gamma(1-d_t)\left[\overline Q(s',a')-\alpha\log\pi_\theta(a'|s')\right].
+\]
+Use the configured single/double/clipped critic backup for $\overline Q$. Treat $y$ as a constant when minimizing the critic loss
+\[
+J_Q(\phi)=\mathbb E\left[(Q_\phi(s,a)-y)^2\right].
+\]
+For the reparameterized actor, minimize
+\[
+J_\pi(\theta)=\mathbb E_{s\sim\mathcal D,\epsilon}
+\left[\alpha\log\pi_\theta(a_\theta(s,\epsilon)|s)-Q_\phi(s,a_\theta(s,\epsilon))\right].
+\]
+Differentiate through the sampled action for the actor update, but do not update critic parameters during that update. For REINFORCE, use the score-function estimator described in the assignment instead. The policy objective is not the temperature objective. A squashed Gaussian requires the appropriate log-probability correction; use the supplied distribution implementation.
+
+The earlier bootstrapping and entropy-only checks are intermediate implementation stages, not additional report submissions. Optional sections remain optional. Report observed results honestly; indicative returns and runtimes are debugging references, not grading thresholds.
+
+\end{document}
