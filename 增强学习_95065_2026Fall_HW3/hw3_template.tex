@@ -1,7 +1,253 @@
+% !TEX program = xelatex
+% !TEX encoding = UTF-8
 \documentclass{article}
 
 \usepackage{ifthen}
 \newif\ifsolutions
 \solutionsfalse
+
+\usepackage[UTF8,fontset=none]{ctex}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\setCJKmainfont{Songti SC}
+\setCJKsansfont{Hiragino Sans GB}
+\setCJKmonofont{Hiragino Sans GB}
+
+\long\def\dqnAnswerBasic{%
+\subsubsection*{环境、算法与评估设置}
+CartPole-v1 的状态由小车位置与速度、杆的角度与角速度组成，动作是向左或向右施力。杆保持竖立且小车处于边界内时，每一步获得 $1$ 分；每回合最多 $500$ 步。
+
+所有运行采用两层、每层 $64$ 个单元的 Q 网络，折扣因子 $\gamma=0.99$，batch size 为 $128$，前 $20{,}000$ 步收集经验，每 $1{,}000$ 步同步目标网络。总训练长度为 $300{,}000$ 环境步；每 $10{,}000$ 步评估一次，每次取 $10$ 回合的平均回报。最后一次评估在 $290{,}000$ 步。CartPole 基线与学习率对照采用种子 $1$；LunarLander 采用种子 $1$、$2$、$3$。训练环境按种子初始化，评估环境采用相应种子加 $10{,}000$。
+
+\noindent\begin{minipage}{\linewidth}
+\setlength{\intextsep}{4pt}
+\setlength{\abovecaptionskip}{4pt}
+\subsubsection*{CartPole 基线表现}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.74\linewidth]{results/q1/cartpole_eval.pdf}
+  \caption{CartPole-v1 基线 DQN 的平均评估回报。横轴为环境步数，纵轴为十回合平均回报；学习率为 $0.001$。}
+  \label{fig:cartpole}
+\end{figure}
+
+如图~\ref{fig:cartpole} 所示，基线在 $220{,}000$ 步之后的各次评估均为 $500$ 分。中段曲线仍有波动，后段则连续保持满分，说明该次训练最终形成了能维持整回合平衡的策略。
+
+\end{minipage}\par\medskip
+\noindent\begin{minipage}{\linewidth}
+\setlength{\intextsep}{4pt}
+\setlength{\abovecaptionskip}{4pt}
+\subsubsection*{LunarLander 三个种子的结果}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.74\linewidth]{results/q1/lunarlander_three_seeds.pdf}
+  \caption{LunarLander-v2 上普通 DQN 的三个独立种子。每个点是十回合的平均评估回报。}
+  \label{fig:lunar}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{LunarLander-v2 的评估回报}
+  \begin{tabular}{ccc}
+    \toprule
+    种子 & 最后一次评估 & 训练期间最高评估 \\
+    \midrule
+    1 & $-43.8$ & $81.9$ \\
+    2 & $35.7$ & $149.5$ \\
+    3 & $-130.4$ & $39.3$ \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:lunar}
+\end{table}
+
+\end{minipage}\par\medskip
+\noindent\begin{minipage}{\linewidth}
+\subsubsection*{学习率 $0.05$ 对 Q 估计的影响}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{results/q1/cartpole_learning_rate.pdf}
+  \caption{CartPole-v1 在学习率 $0.001$ 与 $0.05$ 下的预测 Q 值和 critic 均方误差。预测 Q 值为回放 batch 中所选动作的均值；下图采用对称对数纵轴，以展示误差的跨度。}
+  \label{fig:lr-critic}
+\end{figure}
+
+图~\ref{fig:lr-critic} 中，学习率 $0.05$ 的预测 Q 值上升至约 $90$--$100$；critic 误差增大且波动加剧，其中位数由基线的 $0.51$ 升至 $30.74$。最后评估回报由基线的 $500$ 降至 $75$。
+
+DQN 使用当前网络拟合由目标网络构造的自举目标。较大的学习率增大参数更新幅度，使 Q 估计更容易偏离目标；估值误差又通过自举进入后续更新，从而放大训练波动。这对应课堂中函数近似、离策略学习与自举共同作用的“致命三要素”：本实验中的表现是 critic 误差增大、估值波动和策略回报下降。
+\end{minipage}\par\medskip
+}
+
+\long\def\dqnAnswerDoubleQ{%
+\noindent\begin{minipage}{\linewidth}
+\subsubsection*{Double Q 与普通 DQN 的 LunarLander 对照}
+Double Q 使用在线网络选择下一动作 $a'=\arg\max_a Q_{\phi}(s',a)$，再由目标网络计算 $Q_{\phi'}(s',a')$，并构造目标 $y=r+\gamma(1-d)Q_{\phi'}(s',a')$。分离动作选择与估值，能够减弱最大值运算对估值噪声的放大。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{results/q1/lunarlander_doubleq_comparison.pdf}
+  \caption{LunarLander-v2 中普通 DQN（蓝）与 Double Q（红）的三个种子评估回报。细线表示各个种子，粗线表示三个种子的平均值；横轴为环境步数。}
+  \label{fig:doubleq-lunar}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{LunarLander-v2 各种子的最后一次评估回报}
+  \begin{tabular}{ccc}
+    \toprule
+    种子 & 普通 DQN & Double Q \\
+    \midrule
+    1 & $-43.8$ & $161.9$ \\
+    2 & $35.7$ & $-65.0$ \\
+    3 & $-130.4$ & $263.6$ \\
+    三种子均值 & $-46.2$ & $120.2$ \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:doubleq-lunar}
+\end{table}
+
+Double Q 在种子 1 和 3 上提高了末次回报，在种子 2 上降低了回报；三个种子的末次均值由 $-46.2$ 升至 $120.2$。图~\ref{fig:doubleq-lunar} 中，后期红线的均值整体高于蓝线。普通 DQN 对同一组带噪声的目标估值执行最大化，容易选中被高估的动作；Double Q 分离动作选择与估值，减弱这种过估计反馈，从而改善后期回报。
+
+\end{minipage}\par\medskip
+\noindent\begin{minipage}{\linewidth}
+\subsubsection*{MsPacman 的训练回报与评估回报}
+按 \texttt{mspacman.yaml} 在 \texttt{MsPacmanNoFrameskip-v0} 上训练 $1{,}000{,}000$ 环境步，启用 Double Q、四帧堆叠、四步跳帧与灰度输入。batch size 为 $8$，每 $4$ 环境步更新一次；学习率为 $10^{-4}$，目标网络每 $2{,}000$ 步同步。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{results/q1/mspacman_train_eval.pdf}
+  \caption{MsPacman 的训练回报与评估回报。浅蓝线为每回合训练回报，深蓝线为最近 $100$ 个训练回合的滑动均值，橙线为每次 $10$ 回合的平均评估回报。横轴为环境步数。}
+  \label{fig:mspacman-return}
+\end{figure}
+
+训练回报的最近 $100$ 回合均值由最初约 $255$ 增至最后约 $600$；评估回报波动较大，在 $830{,}000$ 步达到 $1{,}074$，末次为 $769$。前期两条曲线的差别来自采样策略：训练时 $\epsilon$ 在前 $20{,}000$ 步保持 $1$，随后逐渐下降，评估时固定为 $0.02$。因此，训练轨迹包含较多探索动作，而评估曲线主要反映当时接近贪心的策略。图中训练均值跨 $100$ 回合，评估均值每点仅跨 $10$ 回合，后者也因此更容易出现短期波动。
+
+\end{minipage}\par\medskip
+}
+
+\long\def\dqnAnswerHyperparams{%
+\noindent\begin{minipage}{\linewidth}
+\subsubsection*{四档学习率的敏感性}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{results/q1/cartpole_four_learning_rates.pdf}
+  \caption{CartPole-v1 的四档学习率对照。选择学习率，是因为它直接控制每次 Q 网络更新的幅度，可以检验自举目标下训练表现对更新步长的敏感性。四条曲线均使用种子 $1$。}
+  \label{fig:four-lr}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{四档学习率的评估回报}
+  \begin{tabular}{ccc}
+    \toprule
+    学习率 & 最后一次评估 & 训练期间最高评估 \\
+    \midrule
+    $0.0003$ & $500.0$ & $500.0$ \\
+    $0.001$ & $500.0$ & $500.0$ \\
+    $0.003$ & $83.8$ & $500.0$ \\
+    $0.05$ & $75.0$ & $104.6$ \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:four-lr}
+\end{table}
+
+图~\ref{fig:four-lr} 与表~\ref{tab:four-lr} 中，学习率 $0.0003$ 与 $0.001$ 的末次回报均为 $500$；$0.003$ 达到过 $500$ 后回落至 $83.8$；$0.05$ 的最高回报为 $104.6$。在这四档设置中，$0.0003$ 与 $0.001$ 的训练结束表现最好。
+\end{minipage}\par\medskip
+}
+
+\long\def\sacAnswerReinforce{%
+\paragraph{实验设置与回报曲线}
+在 HalfCheetah-v4 上分别使用单样本和十样本 REINFORCE，均训练 $1{,}000{,}000$ 个环境步。两组实验采用种子 $1$、$128$ 个样本的回放 batch、折扣因子 $0.99$、熵系数 $0.2$，每 $10{,}000$ 步评估十个回合。图~\ref{fig:sac-reinforce} 的纵轴为十回合平均评估回报。
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{results/q2/halfcheetah_reinforce.pdf}
+  \caption{HalfCheetah-v4 上 REINFORCE-1 与 REINFORCE-10 的评估回报。}
+  \label{fig:sac-reinforce}
+\end{figure}
+图~\ref{fig:sac-reinforce} 中，REINFORCE-10 的后期回报整体高于 REINFORCE-1；在最后一次 $990{,}000$ 步评估中，两者分别为 $919.4$ 和 $200.4$。两组使用相同的网络、优化器与熵系数，差别在于每个回放状态采样的动作数。REINFORCE-10 对十个动作的 $\nabla_\theta\log\pi_\theta(a\mid s)Q(s,a)$ 取平均，降低动作采样引入的梯度方差，使策略更新方向更稳定，因此取得了更高的回报。
+}
+
+\long\def\sacAnswerReparametrize{%
+\paragraph{三种 actor 梯度估计的比较}
+重参数化实验训练 $1{,}000{,}000$ 环境步，种子、回放 batch 和评估频率与两组 REINFORCE 相同。三组均使用三层、每层 $128$ 单元的网络，actor 与 critic 学习率为 $3\times10^{-4}$，目标网络软更新系数为 $0.005$；重参数化的熵系数为 $0.1$，REINFORCE 为 $0.2$。
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{results/q2/halfcheetah_eval.pdf}
+  \caption{HalfCheetah-v4 上三种 actor 梯度估计器的评估回报；横轴为环境步数。}
+  \label{fig:sac-halfcheetah}
+\end{figure}
+\begin{table}[H]
+  \centering
+  \caption{HalfCheetah-v4 在相同环境步数下的十回合平均评估回报}
+  \begin{tabular}{rrrr}
+    \toprule
+    环境步数 & REINFORCE-1 & REINFORCE-10 & 重参数化 \\
+    \midrule
+    $100{,}000$ & $-67.9$ & $68.7$ & $2369.6$ \\
+    $300{,}000$ & $-54.4$ & $312.7$ & $3760.1$ \\
+    $500{,}000$ & $-211.3$ & $-70.3$ & $4649.5$ \\
+    $990{,}000$ & $200.4$ & $919.4$ & $5858.8$ \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:sac-halfcheetah}
+\end{table}
+图~\ref{fig:sac-halfcheetah} 与表~\ref{tab:sac-halfcheetah} 中，重参数化学习最快，在 $100{,}000$ 步达到 $2369.6$，末次回报为 $5858.8$；REINFORCE-10 次之，REINFORCE-1 最低。重参数化通过 \texttt{rsample()} 保留动作对策略参数的可微关系，直接利用 critic 对动作的梯度更新策略；相比 REINFORCE 的分数函数估计，它以更少动作样本获得低方差梯度，提高了环境样本利用效率。
+
+\paragraph{Humanoid-v4}
+使用给定的两 critic、最小值目标与重参数化配置，在 $500{,}000$ 个环境步处截断训练。每 $10{,}000$ 步对十个回合计算一次平均评估回报。图~\ref{fig:sac-humanoid} 展示这段训练的评估曲线。
+实验采用种子 $1$、三层每层 $256$ 单元的网络、$256$ 个样本的回放 batch、折扣因子 $0.99$、熵系数 $0.05$ 和软更新系数 $0.005$。
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{results/q2/humanoid_eval.pdf}
+  \caption{Humanoid-v4 上 clipped double Q SAC 的平均评估回报。}
+  \label{fig:sac-humanoid}
+\end{figure}
+最后一次评估位于 $490{,}000$ 步，十回合平均回报为 $638.9$，训练期间最高评估回报为 $782.2$。
+}
+
+\long\def\sacAnswerBonus{%
+\paragraph{Hopper-v4 的目标估值对照}
+本次运行中，Double Q 的后段平均评估回报最高。三种方法均采用种子 $1$，训练 $100{,}000$ 个环境步；每 $5{,}000$ 步评估十个回合，每 $1{,}000$ 步记录一次回放 batch 的 Q 值均值。网络为三层、每层 $128$ 个单元，batch size 为 $256$，actor 与 critic 学习率均为 $3\times10^{-4}$，$\gamma=0.99$，$\tau=0.005$，熵系数为 $0.05$。按给定 Hopper 配置，actor 使用熵奖励，critic 的自举目标不加入熵项。
+
+Single Q 使用单个目标 critic；Double Q 让两条 critic 交叉使用对方的目标估值；clipped double Q 将两个目标估值的较小值作为共同目标。三种方法的 actor 均使用重参数化更新；双 critic 的 actor 按模板实现使用两条在线 critic 的均值。
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{results/q2/bonus_hopper_return.pdf}
+  \caption{Hopper-v4 三种目标策略的十回合平均评估回报。}
+  \label{fig:bonus-hopper-return}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{results/q2/bonus_hopper_q.pdf}
+  \caption{Hopper-v4 训练日志中的 \texttt{q\_values}：每次记录为回放 batch 中状态动作对的在线 Q 值均值，双 critic 另对网络取平均。}
+  \label{fig:bonus-hopper-q}
+\end{figure}
+\begin{table}[H]
+  \centering
+  \caption{Hopper-v4 的回报与估值对照}
+  \begin{tabular}{lrrr}
+    \toprule
+    方法 & 末次评估回报 & 后五次评估均值 & 末次 Q 均值 \\
+    \midrule
+    Single Q & $372.7$ & $396.9$ & $230.4$ \\
+    Double Q & $502.5$ & $461.4$ & $211.7$ \\
+    Clipped double Q & $346.9$ & $392.5$ & $165.5$ \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:bonus-hopper}
+\end{table}
+以后五次评估（$75{,}000$--$95{,}000$ 步）的平均回报比较，Double Q 的 $461.4$ 最高，因此选择 Double Q 进行 Humanoid 实验。表中末次评估发生在 $95{,}000$ 步，末次 Q 记录发生在 $99{,}000$ 步。
+
+图~\ref{fig:bonus-hopper-q} 中，single Q 的末次估值为 $230.4$，高于 Double Q 的 $211.7$，而后段评估回报低于 Double Q。过估计会让 actor 偏向被高估的动作，并通过自举继续放大估值误差；Double Q 交叉使用目标网络，减弱单个 critic 对自身估值误差的反馈。Clipped double Q 取两个目标估值的最小值，使末次 Q 均值降至 $165.5$，体现了最小值目标对估值的抑制作用。其后段回报为 $392.5$，说明更保守的估值在这组实验中对应较低的策略回报，Double Q 的回报表现最好。
+
+\paragraph{Humanoid-v4 的样本效率比较}
+采用 Hopper 中回报最好的 Double Q，在 Humanoid-v4 上训练 $500{,}000$ 个环境步。使用三层、每层 $256$ 单元的网络、$256$ 样本的回放 batch、$\gamma=0.99$、$\tau=0.005$ 和熵系数 $0.05$。
+
+同策略对照使用第二次作业的 PGAgent 补跑，采用 reward-to-go、值函数基线、GAE（$\lambda=0.95$）和优势标准化；每批约 $5{,}000$ 个新环境步进行一次 actor 更新和 $50$ 次基线更新。策略和基线均为三层、每层 $256$ 单元，学习率分别为 $3\times10^{-4}$ 和 $10^{-3}$，折扣因子为 $0.99$。两组均采用种子 $1$，以随机策略评估十个回合；横轴为训练环境步数。
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{results/q2/bonus_humanoid_comparison.pdf}
+  \caption{Humanoid-v4：按 Hopper 后段回报选择的 Double Q SAC，与本次补跑的同策略 PG+GAE 对照。横轴为各自实际采集的训练环境步数。}
+  \label{fig:bonus-humanoid}
+\end{figure}
+图~\ref{fig:bonus-humanoid} 中，SAC 的回报上升更快，在 $240{,}000$ 步首次超过 $500$，最后一次 $490{,}000$ 步评估为 $520.8$；PG 在 $500{,}009$ 步的末次回报为 $456.5$。SAC 以更少的环境交互取得更高回报，表现出更高的样本效率。原因是 SAC 从回放池重复利用已有转移，在每个训练步更新 critic 和 actor；PG 每批采集新数据进行一次策略更新，依赖更多新的环境交互来改进策略。
+}
 
 \input{hw3_text/00_main}

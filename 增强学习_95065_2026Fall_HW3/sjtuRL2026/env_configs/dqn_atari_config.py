@@ -1,4 +1,5 @@
 ﻿from typing import Optional, Tuple
+from pathlib import Path
 
 import gym
 from gym.wrappers.frame_stack import FrameStack
@@ -88,6 +89,13 @@ def atari_dqn_config(
     )
 
     def make_env(render: bool = False):
+        import ale_py
+
+        # A target-installed ale-py can keep its legacy Gym module outside
+        # Gym's package directory. Include it when the packages are split.
+        atari_env_dir = Path(ale_py.__file__).resolve().parent.parent / "gym" / "envs"
+        if atari_env_dir.is_dir() and str(atari_env_dir) not in gym.envs.__path__:
+            gym.envs.__path__.append(str(atari_env_dir))
         return wrap_deepmind(
             gym.make(env_name, render_mode="rgb_array" if render else None)
         )

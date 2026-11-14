@@ -36,7 +36,7 @@ def run_training_loop(config: dict, logger: Logger, args: argparse.Namespace):
     render_env = config["make_env"](render=True)
 
     ep_len = config["ep_len"] or env.spec.max_episode_steps
-    batch_size = config["batch_size"] or batch_size
+    batch_size = config["batch_size"]
 
     discrete = isinstance(env.action_space, gym.spaces.Discrete)
     assert (
@@ -50,7 +50,7 @@ def run_training_loop(config: dict, logger: Logger, args: argparse.Namespace):
     if "model" in dir(env):
         fps = 1 / env.model.opt.timestep
     else:
-        fps = env.env.metadata["render_fps"]
+        fps = env.env.metadata.get("render_fps", 30)
 
     # initialize agent
     agent = SoftActorCritic(
@@ -61,14 +61,14 @@ def run_training_loop(config: dict, logger: Logger, args: argparse.Namespace):
 
     replay_buffer = ReplayBuffer(config["replay_buffer_capacity"])
 
-    observation = env.reset()
+    observation = env.reset(seed=args.seed)
+    eval_env.reset(seed=args.seed + 10000)
 
     for step in tqdm.trange(config["total_steps"], dynamic_ncols=True):
         if step < config["random_steps"]:
             action = env.action_space.sample()
         else:
-            # TODO(student): Select an action
-            action = ...
+            action = agent.get_action(observation)
 
         # Step the environment and add the data to the replay buffer
         next_observation, reward, done, info = env.step(action)
@@ -89,9 +89,11 @@ def run_training_loop(config: dict, logger: Logger, args: argparse.Namespace):
 
         # Train the agent
         if step >= config["training_starts"]:
-            # TODO(student): Sample a batch of config["batch_size"] transitions from the replay buffer
-            batch = ...
-            update_info = ...
+            batch = ptu.from_numpy(replay_buffer.sample(batch_size))
+            update_info = agent.update(
+                batch["observations"], batch["actions"], batch["rewards"],
+                batch["next_observations"], batch["dones"], step,
+            )
 
             # Logging
             update_info["actor_lr"] = agent.actor_lr_scheduler.get_last_lr()[0]
@@ -100,7 +102,6 @@ def run_training_loop(config: dict, logger: Logger, args: argparse.Namespace):
             if step % args.log_interval == 0:
                 for k, v in update_info.items():
                     logger.log_scalar(v, k, step)
-                    logger.log_scalars
                 logger.flush()
 
         # Run evaluation
@@ -162,6 +163,7 @@ def main():
     logdir_prefix = "hw3_sac_"  # keep for autograder
 
     config = make_config(args.config_file)
+    config["log_name"] += f"_seed{args.seed}"
     logger = make_logger(logdir_prefix, config)
 
     run_training_loop(config, logger, args)

@@ -1,7 +1,10 @@
 base_config: dqn_atari
 env_name: MsPacmanNoFrameskip-v0
+exp_name: dqn_tuned
 
 learning_rate: 1.0e-4
 discount: 0.99
 target_update_period: 2000
 use_double_q: true
+batch_size: 8
+train_freq: 4

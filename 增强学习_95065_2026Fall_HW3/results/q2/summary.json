@@ -1,0 +1,26 @@
+{
+  "REINFORCE-1": {
+    "log": "data/hw3_sac_reinforce1_HalfCheetah-v4_reinforce_s128_l3_alr0.0003_clr0.0003_b128_d0.99_t0.2_stu0.005_seed1_12-11-2026_10-14-42",
+    "last_step": 990000,
+    "last_eval_return": 200.3699951171875,
+    "best_eval_return": 239.0167999267578
+  },
+  "REINFORCE-10": {
+    "log": "data/hw3_sac_reinforce10_HalfCheetah-v4_reinforce_s128_l3_alr0.0003_clr0.0003_b128_d0.99_t0.2_stu0.005_seed1_12-11-2026_10-14-42",
+    "last_step": 990000,
+    "last_eval_return": 919.3942260742188,
+    "best_eval_return": 1366.9384765625
+  },
+  "重参数化": {
+    "log": "data/hw3_sac_reparametrize_HalfCheetah-v4_reparametrize_s128_l3_alr0.0003_clr0.0003_b128_d0.99_t0.1_stu0.005_seed1_12-11-2026_10-14-42",
+    "last_step": 990000,
+    "last_eval_return": 5858.8125,
+    "best_eval_return": 5922.93017578125
+  },
+  "Humanoid": {
+    "log": "data/hw3_sac_sac_humanoid_Humanoid-v4_reparametrize_s256_l3_alr0.0003_clr0.0003_b256_d0.99_t0.05_stu0.005_min_seed1_12-11-2026_10-15-29",
+    "last_step": 490000,
+    "last_eval_return": 638.9464111328125,
+    "best_eval_return": 782.2404174804688
+  }
+}

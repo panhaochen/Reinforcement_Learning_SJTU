@@ -68,6 +68,8 @@ Implement the basic DQN algorithm. You'll implement an update for the $Q$-networ
     \item Run DQN on \verb|CartPole-v1|, but change the \verb|learning rate| to 0.05 (you can change this in the YAML config file). What happens to (a) the predicted $Q$-values, and (b) the critic error? Can you relate this to any topics from class or the analysis section of this homework?
 \end{itemize}
 
+\dqnAnswerBasic
+
 \subsection{Double Q-Learning {\color{red} (Optional, bonus)}}
 Let's try to stabilize learning. The double-Q trick avoids overestimation bias in the critic update by using two different networks to \textit{select} the next action $a'$ and to \textit{estimate} its value:
 \[a' = \textrm{arg}\max_{a'} Q_{\phi}(s', a')\]
@@ -95,6 +97,8 @@ Implement this functionality in \verb|dqn_agent.py|.
     \item Plot the average training return (\verb|train_return|) and eval return (\verb|eval_return|) on the same axes. You may notice that they look very different early in training! Explain the difference.
 \end{itemize}
 
+\dqnAnswerDoubleQ
+
 \subsection{Experimenting with Hyperparameters} Now let's analyze the sensitivity of Q-learning to hyperparameters. Choose one hyperparameter of your choice and run at least three other settings of this hyperparameter, in addition to the one used in Question 1, and plot all four values on the same graph. Your choice what you experiment with, but you should explain why you chose this hyperparameter in the caption. Create four config files in \verb|experiments/dqn/hyperparameters|, and look in \verb|sjtuRL2026/env_configs/dqn_basic.py| to see which hyperparameters you're able to change. You can use any of the base YAML files as a reference.
 
 Hyperparameter options could include:
@@ -103,3 +107,5 @@ Hyperparameter options could include:
     \item Network architecture
     \item Exploration schedule (or, if you'd like, you can implement an alternative to $\epsilon$-greedy)
 \end{itemize}
+
+\dqnAnswerHyperparams

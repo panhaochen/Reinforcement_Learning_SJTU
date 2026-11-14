@@ -1,0 +1,62 @@
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+/Users/panhaochen/miniconda3/envs/conda/lib/python3.10/site-packages/gym/core.py:317: DeprecationWarning: [33mWARN: Initializing wrapper in old step API which returns one bool instead of two. It is recommended to set `new_step_api=True` to use new step API. This will be the default behaviour in future.[0m
+  deprecation(
+/Users/panhaochen/miniconda3/envs/conda/lib/python3.10/site-packages/gym/wrappers/step_api_compatibility.py:39: DeprecationWarning: [33mWARN: Initializing environment in old step API which returns one bool instead of two. It is recommended to set `new_step_api=True` to use new step API. This will be the default behaviour in future.[0m
+  deprecation(
+/Users/panhaochen/miniconda3/envs/conda/lib/python3.10/site-packages/gym/utils/passive_env_checker.py:241: DeprecationWarning: `np.bool8` is a deprecated alias for `np.bool_`.  (Deprecated NumPy 1.24)
+  if not isinstance(terminated, (bool, np.bool8)):
+Using CPU.
+{"step": 0, "eval_return": 119.9383171081543, "eval_std": 25.32586614577958, "elapsed_seconds": 0.11964797973632812}
+{"step": 10015, "eval_return": 124.69676055908204, "eval_std": 38.08610914016889, "elapsed_seconds": 5.736264944076538}
+{"step": 20039, "eval_return": 147.14193954467774, "eval_std": 52.90028778021117, "elapsed_seconds": 11.381368160247803}
+{"step": 30040, "eval_return": 158.42999572753905, "eval_std": 63.208982829800284, "elapsed_seconds": 17.113224983215332}
+{"step": 40095, "eval_return": 187.30579071044923, "eval_std": 74.78941348036138, "elapsed_seconds": 23.221951961517334}
+{"step": 50120, "eval_return": 198.55176467895507, "eval_std": 92.19773858666245, "elapsed_seconds": 29.809849977493286}
+{"step": 60159, "eval_return": 237.9940200805664, "eval_std": 71.61641152584681, "elapsed_seconds": 36.64560103416443}
+{"step": 70241, "eval_return": 267.5620910644531, "eval_std": 49.96157787772681, "elapsed_seconds": 43.78309512138367}
+{"step": 80276, "eval_return": 297.11968994140625, "eval_std": 75.17465149381732, "elapsed_seconds": 50.931697845458984}
+{"step": 90296, "eval_return": 304.0415267944336, "eval_std": 89.44740990493794, "elapsed_seconds": 58.17883610725403}
+{"step": 100323, "eval_return": 288.9968070983887, "eval_std": 69.14731345975866, "elapsed_seconds": 65.50645899772644}
+{"step": 110357, "eval_return": 284.8705993652344, "eval_std": 62.75715122337336, "elapsed_seconds": 73.00592994689941}
+{"step": 120399, "eval_return": 335.7293304443359, "eval_std": 90.21869255962149, "elapsed_seconds": 80.62808799743652}
+{"step": 130456, "eval_return": 342.2558349609375, "eval_std": 48.75822499718521, "elapsed_seconds": 88.22238802909851}
+{"step": 140633, "eval_return": 371.3460388183594, "eval_std": 103.97946393604258, "elapsed_seconds": 95.99644184112549}
+{"step": 150683, "eval_return": 333.26048278808594, "eval_std": 51.633059684091414, "elapsed_seconds": 103.65190100669861}
+{"step": 160811, "eval_return": 345.46217651367186, "eval_std": 37.931079718188045, "elapsed_seconds": 111.3990421295166}
+{"step": 170899, "eval_return": 402.20339050292966, "eval_std": 111.41446156981671, "elapsed_seconds": 119.24033498764038}
+{"step": 180957, "eval_return": 385.0842681884766, "eval_std": 58.16456993563157, "elapsed_seconds": 127.0604600906372}
+{"step": 191021, "eval_return": 386.08795776367185, "eval_std": 56.07050546851497, "elapsed_seconds": 134.92792391777039}
+{"step": 201108, "eval_return": 334.92275390625, "eval_std": 35.52878397359315, "elapsed_seconds": 142.98724007606506}
+{"step": 211266, "eval_return": 322.63977508544923, "eval_std": 41.32857625431911, "elapsed_seconds": 150.97806000709534}
+{"step": 221334, "eval_return": 400.9118347167969, "eval_std": 89.21610448306966, "elapsed_seconds": 158.9606809616089}
+{"step": 231356, "eval_return": 445.0319458007813, "eval_std": 85.71978810464682, "elapsed_seconds": 166.89663910865784}
+{"step": 241441, "eval_return": 392.0139877319336, "eval_std": 92.3064922371823, "elapsed_seconds": 174.95201992988586}
+{"step": 251526, "eval_return": 391.07254180908205, "eval_std": 100.12796789931943, "elapsed_seconds": 183.04195308685303}
+{"step": 261655, "eval_return": 377.2068634033203, "eval_std": 66.48258776683295, "elapsed_seconds": 191.1847128868103}
+{"step": 271792, "eval_return": 425.6690368652344, "eval_std": 146.89075942142836, "elapsed_seconds": 199.322438955307}
+{"step": 281837, "eval_return": 375.73656158447267, "eval_std": 81.49086801131763, "elapsed_seconds": 207.37988996505737}
+{"step": 291950, "eval_return": 446.5927459716797, "eval_std": 115.1298354510663, "elapsed_seconds": 215.541100025177}
+{"step": 302010, "eval_return": 434.4815505981445, "eval_std": 89.10441719867624, "elapsed_seconds": 223.47221899032593}
+{"step": 312099, "eval_return": 481.34534606933596, "eval_std": 194.80756829070614, "elapsed_seconds": 231.52481198310852}
+{"step": 322188, "eval_return": 425.217138671875, "eval_std": 82.1322594263972, "elapsed_seconds": 239.4996418952942}
+{"step": 332240, "eval_return": 355.9231842041016, "eval_std": 65.35564708434221, "elapsed_seconds": 247.42410612106323}
+{"step": 342322, "eval_return": 378.65447692871095, "eval_std": 103.00296803008874, "elapsed_seconds": 255.30899786949158}
+{"step": 352416, "eval_return": 416.32192077636716, "eval_std": 110.67257429798315, "elapsed_seconds": 263.2449998855591}
+{"step": 362451, "eval_return": 395.0776657104492, "eval_std": 107.12966130002404, "elapsed_seconds": 271.1642310619354}
+{"step": 372616, "eval_return": 362.7220153808594, "eval_std": 67.30709265133612, "elapsed_seconds": 279.1988990306854}
+{"step": 382678, "eval_return": 408.29591979980466, "eval_std": 82.51374931707562, "elapsed_seconds": 287.12132692337036}
+{"step": 392713, "eval_return": 419.2551239013672, "eval_std": 81.99748008958815, "elapsed_seconds": 295.1460428237915}
+{"step": 402759, "eval_return": 397.09572448730466, "eval_std": 101.68446912665861, "elapsed_seconds": 303.14565205574036}
+{"step": 412862, "eval_return": 402.51763610839845, "eval_std": 71.70957975913872, "elapsed_seconds": 311.1528251171112}
+{"step": 422894, "eval_return": 385.5932312011719, "eval_std": 90.78555868357701, "elapsed_seconds": 319.2367298603058}
+{"step": 432938, "eval_return": 492.1270385742188, "eval_std": 137.13616219997587, "elapsed_seconds": 327.5772280693054}
+{"step": 443060, "eval_return": 396.2338439941406, "eval_std": 75.03616629324549, "elapsed_seconds": 335.9867069721222}
+{"step": 453137, "eval_return": 366.7939483642578, "eval_std": 55.130140076697735, "elapsed_seconds": 344.4295938014984}
+{"step": 463243, "eval_return": 431.92857055664064, "eval_std": 107.65601039272433, "elapsed_seconds": 353.0191559791565}
+{"step": 473322, "eval_return": 422.56113586425784, "eval_std": 87.64899499082118, "elapsed_seconds": 361.6378388404846}
+{"step": 483337, "eval_return": 430.0550567626953, "eval_std": 89.86969309471495, "elapsed_seconds": 369.82401990890503}
+{"step": 493395, "eval_return": 420.1028167724609, "eval_std": 112.47222227859895, "elapsed_seconds": 377.24362087249756}
+{"step": 500009, "eval_return": 456.5346343994141, "eval_std": 129.32824583291307, "elapsed_seconds": 382.36168003082275}
+COMPLETE

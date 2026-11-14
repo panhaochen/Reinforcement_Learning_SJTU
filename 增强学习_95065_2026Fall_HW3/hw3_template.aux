@@ -1,0 +1,76 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand*\HyPL@Entry[1]{}
+\HyPL@Entry{0<</S/D>>}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Deep Q-Learning}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}File overview}{1}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Implementation}{1}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Basic Q-Learning}{2}{subsection.1.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces CartPole-v1 基线 DQN 的平均评估回报。横轴为环境步数，纵轴为十回合平均回报；学习率为 $0.001$。}}{4}{figure.1}\protected@file@percent }
+\newlabel{fig:cartpole}{{1}{4}{CartPole-v1 基线 DQN 的平均评估回报。横轴为环境步数，纵轴为十回合平均回报；学习率为 $0.001$。}{figure.1}{}}
+\newlabel{fig:cartpole@cref}{{[figure][1][]1}{[1][3][]4}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces LunarLander-v2 上普通 DQN 的三个独立种子。每个点是十回合的平均评估回报。}}{4}{figure.2}\protected@file@percent }
+\newlabel{fig:lunar}{{2}{4}{LunarLander-v2 上普通 DQN 的三个独立种子。每个点是十回合的平均评估回报。}{figure.2}{}}
+\newlabel{fig:lunar@cref}{{[figure][2][]2}{[1][4][]4}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces LunarLander-v2 的评估回报}}{4}{table.1}\protected@file@percent }
+\newlabel{tab:lunar}{{1}{4}{LunarLander-v2 的评估回报}{table.1}{}}
+\newlabel{tab:lunar@cref}{{[table][1][]1}{[1][4][]4}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces CartPole-v1 在学习率 $0.001$ 与 $0.05$ 下的预测 Q 值和 critic 均方误差。预测 Q 值为回放 batch 中所选动作的均值；下图采用对称对数纵轴，以展示误差的跨度。}}{5}{figure.3}\protected@file@percent }
+\newlabel{fig:lr-critic}{{3}{5}{CartPole-v1 在学习率 $0.001$ 与 $0.05$ 下的预测 Q 值和 critic 均方误差。预测 Q 值为回放 batch 中所选动作的均值；下图采用对称对数纵轴，以展示误差的跨度。}{figure.3}{}}
+\newlabel{fig:lr-critic@cref}{{[figure][3][]3}{[1][4][]5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Double Q-Learning {\color  {red} (Optional, bonus)}}{5}{subsection.1.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces LunarLander-v2 中普通 DQN（蓝）与 Double Q（红）的三个种子评估回报。细线表示各个种子，粗线表示三个种子的平均值；横轴为环境步数。}}{7}{figure.4}\protected@file@percent }
+\newlabel{fig:doubleq-lunar}{{4}{7}{LunarLander-v2 中普通 DQN（蓝）与 Double Q（红）的三个种子评估回报。细线表示各个种子，粗线表示三个种子的平均值；横轴为环境步数。}{figure.4}{}}
+\newlabel{fig:doubleq-lunar@cref}{{[figure][4][]4}{[1][6][]7}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces LunarLander-v2 各种子的最后一次评估回报}}{7}{table.2}\protected@file@percent }
+\newlabel{tab:doubleq-lunar}{{2}{7}{LunarLander-v2 各种子的最后一次评估回报}{table.2}{}}
+\newlabel{tab:doubleq-lunar@cref}{{[table][2][]2}{[1][6][]7}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces MsPacman 的训练回报与评估回报。浅蓝线为每回合训练回报，深蓝线为最近 $100$ 个训练回合的滑动均值，橙线为每次 $10$ 回合的平均评估回报。横轴为环境步数。}}{8}{figure.5}\protected@file@percent }
+\newlabel{fig:mspacman-return}{{5}{8}{MsPacman 的训练回报与评估回报。浅蓝线为每回合训练回报，深蓝线为最近 $100$ 个训练回合的滑动均值，橙线为每次 $10$ 回合的平均评估回报。横轴为环境步数。}{figure.5}{}}
+\newlabel{fig:mspacman-return@cref}{{[figure][5][]5}{[1][7][]8}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}Experimenting with Hyperparameters}{8}{subsection.1.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces CartPole-v1 的四档学习率对照。选择学习率，是因为它直接控制每次 Q 网络更新的幅度，可以检验自举目标下训练表现对更新步长的敏感性。四条曲线均使用种子 $1$。}}{9}{figure.6}\protected@file@percent }
+\newlabel{fig:four-lr}{{6}{9}{CartPole-v1 的四档学习率对照。选择学习率，是因为它直接控制每次 Q 网络更新的幅度，可以检验自举目标下训练表现对更新步长的敏感性。四条曲线均使用种子 $1$。}{figure.6}{}}
+\newlabel{fig:four-lr@cref}{{[figure][6][]6}{[1][9][]9}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces 四档学习率的评估回报}}{9}{table.3}\protected@file@percent }
+\newlabel{tab:four-lr}{{3}{9}{四档学习率的评估回报}{table.3}{}}
+\newlabel{tab:four-lr@cref}{{[table][3][]3}{[1][9][]9}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Continuous Actions with Actor-Critic}{9}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Implementation}{10}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Bootstrapping}{10}{subsubsection.2.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Entropy Bonus and Soft Actor-Critic}{11}{subsubsection.2.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Actor with REINFORCE}{12}{subsubsection.2.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{实验设置与回报曲线}{13}{section*.8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces HalfCheetah-v4 上 REINFORCE-1 与 REINFORCE-10 的评估回报。}}{13}{figure.7}\protected@file@percent }
+\newlabel{fig:sac-reinforce}{{7}{13}{HalfCheetah-v4 上 REINFORCE-1 与 REINFORCE-10 的评估回报。}{figure.7}{}}
+\newlabel{fig:sac-reinforce@cref}{{[figure][7][]7}{[1][12][]13}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Actor with REPARAMETRIZE}{13}{subsubsection.2.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{三种 actor 梯度估计的比较}{14}{section*.9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces HalfCheetah-v4 上三种 actor 梯度估计器的评估回报；横轴为环境步数。}}{14}{figure.8}\protected@file@percent }
+\newlabel{fig:sac-halfcheetah}{{8}{14}{HalfCheetah-v4 上三种 actor 梯度估计器的评估回报；横轴为环境步数。}{figure.8}{}}
+\newlabel{fig:sac-halfcheetah@cref}{{[figure][8][]8}{[1][14][]14}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces HalfCheetah-v4 在相同环境步数下的十回合平均评估回报}}{15}{table.4}\protected@file@percent }
+\newlabel{tab:sac-halfcheetah}{{4}{15}{HalfCheetah-v4 在相同环境步数下的十回合平均评估回报}{table.4}{}}
+\newlabel{tab:sac-halfcheetah@cref}{{[table][4][]4}{[1][14][]15}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Humanoid-v4}{15}{section*.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Humanoid-v4 上 clipped double Q SAC 的平均评估回报。}}{15}{figure.9}\protected@file@percent }
+\newlabel{fig:sac-humanoid}{{9}{15}{Humanoid-v4 上 clipped double Q SAC 的平均评估回报。}{figure.9}{}}
+\newlabel{fig:sac-humanoid@cref}{{[figure][9][]9}{[1][15][]15}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.5}Stabilizing Target Values \text  {\color  {red}(Optional, bonus)}}{16}{subsubsection.2.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hopper-v4 的目标估值对照}{16}{section*.11}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Hopper-v4 三种目标策略的十回合平均评估回报。}}{17}{figure.10}\protected@file@percent }
+\newlabel{fig:bonus-hopper-return}{{10}{17}{Hopper-v4 三种目标策略的十回合平均评估回报。}{figure.10}{}}
+\newlabel{fig:bonus-hopper-return@cref}{{[figure][10][]10}{[1][16][]17}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Hopper-v4 训练日志中的 \texttt  {q\_values}：每次记录为回放 batch 中状态动作对的在线 Q 值均值，双 critic 另对网络取平均。}}{17}{figure.11}\protected@file@percent }
+\newlabel{fig:bonus-hopper-q}{{11}{17}{Hopper-v4 训练日志中的 \texttt {q\_values}：每次记录为回放 batch 中状态动作对的在线 Q 值均值，双 critic 另对网络取平均。}{figure.11}{}}
+\newlabel{fig:bonus-hopper-q@cref}{{[figure][11][]11}{[1][17][]17}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Hopper-v4 的回报与估值对照}}{18}{table.5}\protected@file@percent }
+\newlabel{tab:bonus-hopper}{{5}{18}{Hopper-v4 的回报与估值对照}{table.5}{}}
+\newlabel{tab:bonus-hopper@cref}{{[table][5][]5}{[1][17][]18}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Humanoid-v4 的样本效率比较}{18}{section*.12}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Humanoid-v4：按 Hopper 后段回报选择的 Double Q SAC，与本次补跑的同策略 PG+GAE 对照。横轴为各自实际采集的训练环境步数。}}{19}{figure.12}\protected@file@percent }
+\newlabel{fig:bonus-humanoid}{{12}{19}{Humanoid-v4：按 Hopper 后段回报选择的 Double Q SAC，与本次补跑的同策略 PG+GAE 对照。横轴为各自实际采集的训练环境步数。}{figure.12}{}}
+\newlabel{fig:bonus-humanoid@cref}{{[figure][12][]12}{[1][18][]19}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Report submission}{19}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}SAC implementation notes}{20}{section.4}\protected@file@percent }
+\gdef \@abspage@last{20}

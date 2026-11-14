@@ -1,0 +1,52 @@
+{
+  "selection_rule": "Mean of the last five evaluation returns (75k--95k steps)",
+  "best": "Double Q",
+  "hopper": {
+    "Single Q": {
+      "log": "data/hw3_sac_sac_hopper_singlecritic_Hopper-v4_reparametrize_s128_l3_alr0.0003_clr0.0003_b256_d0.99_t0.05_stu0.005_seed1_12-11-2026_15-08-10",
+      "last_step": 95000,
+      "last_return": 372.733642578125,
+      "best_return": 518.012939453125,
+      "last5_return_mean": 396.9158538818359,
+      "last_q": 230.43487548828125,
+      "last5_q_mean": 226.78929443359374
+    },
+    "Double Q": {
+      "log": "data/hw3_sac_sac_hopper_doubleq_Hopper-v4_reparametrize_s128_l3_alr0.0003_clr0.0003_b256_d0.99_t0.05_stu0.005_doubleq_seed1_12-11-2026_15-08-10",
+      "last_step": 95000,
+      "last_return": 502.48876953125,
+      "best_return": 512.9144897460938,
+      "last5_return_mean": 461.4110900878906,
+      "last_q": 211.6812744140625,
+      "last5_q_mean": 218.68222045898438
+    },
+    "Clipped double Q": {
+      "log": "data/hw3_sac_sac_hopper_clipq_Hopper-v4_reparametrize_s128_l3_alr0.0003_clr0.0003_b256_d0.99_t0.05_stu0.005_min_seed1_12-11-2026_15-08-10",
+      "last_step": 95000,
+      "last_return": 346.8567810058594,
+      "best_return": 503.21624755859375,
+      "last5_return_mean": 392.5185302734375,
+      "last_q": 165.53118896484375,
+      "last5_q_mean": 164.9281433105469
+    }
+  },
+  "humanoid": {
+    "sac_log": "data/hw3_sac_sac_humanoid_bonus_doubleq_Humanoid-v4_reparametrize_s256_l3_alr0.0003_clr0.0003_b256_d0.99_t0.05_stu0.005_doubleq_seed1_12-11-2026_15-20-28",
+    "sac": {
+      "last_step": 490000,
+      "last_return": 520.82421875,
+      "best_return": 599.4761352539062,
+      "mean_return_to_490k": 444.44306743388273,
+      "return_at_490k_linear": 520.82421875,
+      "first_eval_at_least_500": 240000
+    },
+    "pg": {
+      "last_step": 500009,
+      "last_return": 456.5346343994141,
+      "best_return": 492.1270385742188,
+      "mean_return_to_490k": 354.40245810953445,
+      "return_at_490k_linear": 423.46211830028415,
+      "first_eval_at_least_500": null
+    }
+  }
+}

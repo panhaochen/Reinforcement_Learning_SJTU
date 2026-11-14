@@ -57,8 +57,8 @@ class MLPPolicy(nn.Module):
                     size=layer_size,
                 ).to(ptu.device)
 
-                if self.fixed_std:
-                    self.std = 0.1
+                if self.fixed_std is not None:
+                    self.std = self.fixed_std
                 else:
                     self.std = nn.Parameter(
                         torch.full((ac_dim,), 0.0, dtype=torch.float32, device=ptu.device)
@@ -80,7 +80,7 @@ class MLPPolicy(nn.Module):
                 std = torch.nn.functional.softplus(std) + 1e-2
             else:
                 mean = self.net(obs)
-                if self.fixed_std:
+                if self.fixed_std is not None:
                     std = self.std
                 else:
                     std = torch.nn.functional.softplus(self.std) + 1e-2

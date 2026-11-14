@@ -128,16 +128,15 @@ def sac_config(
     return {
         "agent_kwargs": {
             "make_critic": make_critic,
-            "make_critic_optimizer": make_actor_optimizer,
+            "make_critic_optimizer": make_critic_optimizer,
             "make_critic_schedule": make_lr_schedule,
             "make_actor": make_actor,
-            "make_actor_optimizer": make_critic_optimizer,
+            "make_actor_optimizer": make_actor_optimizer,
             "make_actor_schedule": make_lr_schedule,
             "num_critic_updates": num_critic_updates,
             "discount": discount,
             "actor_gradient_type": actor_gradient_type,
             "num_actor_samples": num_actor_samples,
-            "num_critic_updates": num_critic_updates,
             "num_critic_networks": num_critic_networks,
             "target_critic_backup_type": target_critic_backup_type,
             "use_entropy_bonus": use_entropy_bonus,

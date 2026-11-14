@@ -1,0 +1,14 @@
+{
+  "env": "Humanoid-v4",
+  "seed": 1,
+  "total_steps": 500000,
+  "batch_steps": 5000,
+  "n_layers": 3,
+  "layer_size": 256,
+  "discount": 0.99,
+  "learning_rate": 0.0003,
+  "baseline_learning_rate": 0.001,
+  "baseline_gradient_steps": 50,
+  "gae_lambda": 0.95,
+  "eval_episodes": 10
+}
